@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "nameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/base
+echo "nameserver 8.8.4.4" >> /etc/resolvconf/resolv.conf.d/base
+sudo mv /etc/resolv.conf /etc/resolv.conf.backup
+sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
+sudo resolvconf -u
+sudo /etc/init.d/networking restart

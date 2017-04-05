@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+import PyPDF2
+import os
+import sys
+
+passedDIR = sys.argv[1]
+print(passedDIR)
+
+files = os.listdir(passedDIR)
+x = len(files)
+
+totalPages = 0
+i = 0
+while i < x:
+
+	pdfFileObject = open( passedDIR + files[i] , 'rb' )
+	
+	try:
+		pdfReader = PyPDF2.PdfFileReader(pdfFileObject)
+		print(str(files[i]) + " = " + str(pdfReader.numPages))
+		totalPages = totalPages + pdfReader.numPages
+	except IOError:
+		print( str(files[i]) + " = Not a PDF")
+		pass
+	i = i + 1
+
+print( "Total Pages = " + str(totalPages) )

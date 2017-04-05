@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo service samba stop
+sudo service nmbd start
+sudo service smbd start
+
+
+#sudo nano /etc/samba/smb.conf

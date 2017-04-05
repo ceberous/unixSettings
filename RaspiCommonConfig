@@ -1,0 +1,39 @@
+1.) BlueTooth
+----------------------
+add:
+	dtoverlay-pi3-disable-bt
+to:
+	/boot/config.txt
+
+2.) 	
+----------------------
+add:
+	hdmi_drive=2
+to:
+	/boot/config.txt
+
+
+3.) 
+----------------------------------
+sudo apt-get install libffi-dev python-cffi
+
+
+
+
+
+http://askubuntu.com/questions/72267/how-to-allow-execution-without-using-sudo#72272
+
+http://www.howtogeek.com/167195/how-to-change-your-raspberry-pi-or-other-linux-devices-hostname/
+ping halopi2.local
+
+https://github.com/zookeepr/zookeepr/wiki/Creating-a-Development-Environment-with-pip-and-virtualenv
+
+http://stackoverflow.com/questions/32946947/python-to-simulate-keyboard-strokes
+
+
+
+pip install --upgrade pyasn1
+
+
+
+https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04

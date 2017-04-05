@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in *.mp3
+do
+	ext=${file##*.} # Capture the extension
+	num=${file%%_*} # Capture the number
+	name=${file%.*} # Capture the name
+	name=${name#* - } # Step 2
+	mv "$file" "$name.$ext"
+done
+
