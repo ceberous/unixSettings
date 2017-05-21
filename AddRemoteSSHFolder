@@ -1,1 +1,9 @@
 sftp://username@server.example.com:22/home/username
+
+
+or.... the better way
+sudo apt-get install sshfs
+sudo mkdir /media/user/userFolder
+sudo sshfs -o allow_other root@xxx.xxx.xxx.xxx:/ /media/user/userFolder
+        or via RSA key
+sudo sshfs -o rw -o allow_other,IdentityFile=/home/XXX/.ssh/XXXX user@XX.XX.XX.XXX:/home/user /media/user/userFolder
