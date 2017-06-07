@@ -1,0 +1,2 @@
+#!/bin/bash
+head -1 $1 | cut -c$2-$3
