@@ -35,7 +35,10 @@ def remove_tmp_frame_dir():
 def make_frames():
     print "\nGenerating Frames"
     global wPath , wSize
-    wSmallest = wSize[0] if wSize[0] > wSize[1] else wSize[1]
+    if ( len( sys.argv ) > 3 ): 
+        wSmallest = sys.argv[3]
+    else:
+        wSmallest = wSize[0] if wSize[0] > wSize[1] else wSize[1]    
     wScale = "scale=" + wSmallest + ":-1:flags=lanczos,fps=" + sys.argv[2]
     tmpPA = wPath + "/ffout%03d.png"
     wCA = [ "ffmpeg" , "-i" , sys.argv[1] , "-vf" , wScale , tmpPA ]
@@ -49,7 +52,6 @@ def convert_frames():
     run_command( wCA )
 
 def wMain():
-
     global wPath
     wEnd = sys.argv[1].rfind("/")
     wPath = sys.argv[1][0:wEnd+1] + "wFramesTMP"
