@@ -1,12 +1,18 @@
 #!/usr/bin/python
 import sys , os , random, string
 
-try:
-	w_length = int(sys.argv[1])
-except:
-	w_length = 25
+wSAL = len(sys.argv)
 
-chars = string.ascii_letters + string.digits + '!@#$%^*()'
-random.seed = (os.urandom(1024))
+w_length = 25
+w_extra =  '!@#$%^*()'
+if ( wSAL > 1 ):
+        w_length = int(sys.argv[1])
+if ( wSAL > 2 ):
+        if ( sys.argv[2] == "url" ):
+                w_extra = "$-_.+!*'(),"
 
-print ''.join(random.choice(chars) for i in range(w_length))
+w_byte_seed = random.randrange( 1024 ,  2048 , 8 )
+print w_byte_seed
+
+chars = string.ascii_letters + string.digits + w_extra
+random.seed = (os.urandom( w_byte_seed  ))
