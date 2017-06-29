@@ -1,0 +1,23 @@
+#!/usr/bin/python
+import sys , os
+from PyPDF2 import PdfFileMerger
+
+try:
+	basePath = sys.argv[1]
+except:
+	print "Must Provide Directory Path as argv[1]"
+	sys.exit(1)
+
+outFile = basePath + "/combined.pdf"
+try:
+	os.remove( outFile  )
+except:
+	pass
+
+pdfs = [f for f in os.listdir( basePath  ) if os.path.isfile(f) and f.endswith('.pdf')]
+merger = PdfFileMerger()
+
+for pdf in pdfs[::-1]:
+    merger.append(pdf)
+
+merger.write( outFile  )
