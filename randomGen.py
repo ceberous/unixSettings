@@ -12,7 +12,6 @@ if ( wSAL > 2 ):
                 w_extra = "$-_.+!*'(),"
 
 w_byte_seed = random.randrange( 1024 ,  2048 , 8 )
-print w_byte_seed
 
 chars = string.ascii_letters + string.digits + w_extra
 random.seed = (os.urandom( w_byte_seed  ))
