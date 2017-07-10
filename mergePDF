@@ -15,9 +15,10 @@ except:
 	pass
 
 pdfs = [f for f in os.listdir( basePath  ) if os.path.isfile(f) and f.endswith('.pdf')]
+pdfs.sort()
 merger = PdfFileMerger()
 
-for pdf in pdfs[::-1]:
+for pdf in pdfs:
     merger.append(pdf)
 
 merger.write( outFile  )
