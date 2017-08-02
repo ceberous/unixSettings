@@ -1,5 +1,7 @@
 #!/home/morpheous/.nvm/versions/node/v7.4.0/bin/node
 require('/home/morpheous/.nvm/versions/node/v7.4.0/lib/node_modules/shelljs/global');
+var setDefaultSink = "pacmd set-default-sink 1";
+exec( setDefaultSink , { silent:true , async:false } );
 var getInputs = "pacmd list-sink-inputs | awk '/index:/ {print $0};'";
 var wInputs = exec( getInputs , { silent:true , async: false }).stdout;
 wInputs = wInputs.split("\n");
