@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ $# -eq 0 ]] ; then
+	sudo netstat -peanut
+else
+	sudo netstat -peanut | grep $1
+fi
