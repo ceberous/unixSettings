@@ -1,0 +1,3 @@
+#!/bin/bash
+#xprop | grep "CLASS" <<--- click on window to return name.name
+wmctrl -x -r name.name -b remove,skip_taskbar
