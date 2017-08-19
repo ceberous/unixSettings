@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -F /dev/null -i PRIVATE_RSA_KEY USER_NAME@HOST_IP
