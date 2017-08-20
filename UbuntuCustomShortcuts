@@ -1,0 +1,26 @@
+Super + r = gmrun
+Super + ctrl + d = Show Desktop
+
+ctrl + alt + t = gnome-terminal
+
+Alt + F1 = MoveAllSinksToSource1
+Alt + F2 = MoveAllSinksToSource2
+Alt + F3 = volumeMuteToggle
+Alt + F4 = volumeDown
+Alt + F5 = volumeUp
+
+Alt + F6 = mopidyPause
+Alt + F7 = mopidyResume
+Alt + F8 = mopidyPrevious
+Alt + F9 = mopidyNext
+
+Alt + F10 = killxflux
+Alt + F11 = redfiltertime
+
+Ctrl + Alt + q = hideTorguard
+Ctrl + Alt + w = showTorguard
+
+Ctrl + Alt + e = chromeCloseTab
+Ctrl + Alt + y = twitchIRL
+Ctrl + Alt + u = twitchChess
+Ctrl + Alt + i = youtubeSubscriptions
