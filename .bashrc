@@ -1,8 +1,3 @@
-
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -86,34 +81,6 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -127,32 +94,24 @@ if ! shopt -oq posix; then
   fi
 fi
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
 
-export PATH="/usr/clang/bin:$PATH"
-
-export PATH="/home/sarah/Android/:$PATH"
-export PATH="/home/sarah/Android/Sdk/platform-tools:$PATH"
-
-export PATH="/usr/local/bin/VisualStudio:$PATH"
 
 alias pT='ping www.google.com'
-
-alias untar='tar xjvf'
+alias usbINFO='lsusb -v | grep 'Bus\|MaxPower''
+alias mapHome='nmap 10.0.0.1/24'
+alias untar='tar -xzvf'
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection clipboard -o'
-alias redfilter='xflux -z 98555 -k 2000'
-alias sk='pkill -9'
+alias skn='sudo pkill -9'
+alias sk='sudo kill -9'
 alias tubeMP3='youtube-dl -f bestaudio --extract-audio --audio-format mp3'
-alias droplet='ssh root@162.243.68.99'
-
-alias disableWIFI='curl -X POST http://192.168.2.1/cgi-bin/wireless_ssid.exe -d "wmd=0&wchan=0&ssid=dlink&wbr=11&bandwidth=0&hidessid=0&protectmode=0&wmmenable=1"'
-
-alias enableWIFI='curl -X POST http://192.168.2.1/cg-bin/wireless_ssid.exe -d "wmd=0&wchan=0&ssid=dlink&wbr=9&bandwidth=0&hidessid=0&protectmode=0&wmmenable=1"'
-
-alias py2='source /home/morpheous/WORKSPACE/PYTHON/VIRT_ENV/2/bin/activate'
-alias py3='source /home/morpheous/WORKSPACE/PYTHON/VIRT_ENV/3/bin/activate'
-export PATH=$HOME/cmus/bin:$PATH
-
 alias perlShell='perl -MCPAN -e shell'
+
+alias docker='sudo docker'
+alias chmod='sudo chmod'
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
