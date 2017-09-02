@@ -12,11 +12,17 @@ if ( wSAL > 2 ):
 		w_extra = "$-_.+!*'(),"
 	elif ( sys.argv[2] == "plain" ):
 		w_extra = ""
+	elif ( sys.argv[2] == "numbers" ):
+		w_extra = "numbersONLY"
 
 w_byte_seed = random.randrange( 1024 ,  2048 , 8 )
 
-chars = string.ascii_letters + string.digits + w_extra
-random.seed = (os.urandom( w_byte_seed  ))
+if w_extra == "numbersONLY":
+	chars = string.digits
+else:
+	chars = string.ascii_letters + string.digits + w_extra
+
+random.seed = ( os.urandom( w_byte_seed ))
 
 x1 = ''.join(random.choice(chars) for i in range(w_length))
 
