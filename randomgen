@@ -6,13 +6,13 @@ wSAL = len( sys.argv )
 w_length = 25
 w_extra =  '!@#$%^*()'
 
-cPOS = 1
-if ( wSAL == 2 ):
-	xT = sys.argv[1].isdigit()
-	if ( xT == True ):
-		w_length = int( sys.argv[1] )
-if ( wSAL == 3 ):
-	cPOS = 2
+cPOS = wSAL - 1
+xT = sys.argv[ 1 ].isdigit()
+if ( xT == True ):
+	w_length = int( sys.argv[ 1 ] )
+	if ( ( cPOS + 1 ) < wSAL ):
+		cPOS = cPOS + 1
+
 
 if ( sys.argv[ cPOS ] == "url" ):
 	w_extra = "$-_.+!*'(),"
@@ -58,14 +58,9 @@ def b_RAN_ITR():
 x1 = b_RAN_ITR()
 
 
-c1POS = 1
-if ( wSAL == 3 ):
-	c1POS = 2
-elif ( wSAL == 4 ):
-	c1POS = 3
-if ( sys.argv[ c1POS ] == "lower"  ):
+if ( sys.argv[ cPOS ] == "lower"  ):
 	x1 = x1.lower()
-elif ( sys.argv[ c1POS ] == "upper" ):
+elif ( sys.argv[ cPOS ] == "upper" ):
 	x1 = x1.upper()
 
 
