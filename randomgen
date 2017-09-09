@@ -6,20 +6,21 @@ wSAL = len( sys.argv )
 w_length = 25
 w_extra =  '!@#$%^*()'
 
-cPOS = wSAL - 1
-xT = sys.argv[ 1 ].isdigit()
-if ( xT == True ):
-	w_length = int( sys.argv[ 1 ] )
-	if ( ( cPOS + 1 ) < wSAL ):
-		cPOS = cPOS + 1
+cPOS = 0
+if ( wSAL > 1 ):
+	cPOS = wSAL - 1
+	xT = sys.argv[ 1 ].isdigit()
+	if ( xT == True ):
+		w_length = int( sys.argv[ 1 ] )
+		if ( ( cPOS + 1 ) < wSAL ):
+			cPOS = cPOS + 1
 
-
-if ( sys.argv[ cPOS ] == "url" ):
-	w_extra = "$-_.+!*'(),"
-elif ( sys.argv[ cPOS ] == "plain" ):
-	w_extra = ""
-elif ( sys.argv[ cPOS ] == "numbers" ):
-	w_extra = "numbersONLY"
+	if ( sys.argv[ cPOS ] == "url" ):
+		w_extra = "$-_.+!*'(),"
+	elif ( sys.argv[ cPOS ] == "plain" ):
+		w_extra = ""
+	elif ( sys.argv[ cPOS ] == "numbers" ):
+		w_extra = "numbersONLY"
 				
 
 if w_extra == "numbersONLY":
