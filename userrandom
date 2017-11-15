@@ -1,0 +1,6 @@
+#!/bin/bash
+randomgen $1 numbers
+randomgen $1 numbers
+randomgen $1 numbers
+randomgen
+

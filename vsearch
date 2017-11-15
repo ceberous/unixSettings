@@ -1,0 +1,6 @@
+#!/bin/bash
+chrome "https://www.google.com"
+xdotool keydown ctrl+shift+period
+sleep 3
+xdotool keyup ctrl+shift+period
+

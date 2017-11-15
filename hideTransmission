@@ -1,0 +1,2 @@
+#!/bin/bash
+wmctrl -x -r transmission-gtk -b add,skip_taskbar

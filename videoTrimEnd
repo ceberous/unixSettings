@@ -1,0 +1,73 @@
+#!/bin/bash
+ts_get_msec()
+{
+  read -r h m s ms <<< $(echo $1 | tr '.:' ' ' )
+  h=${h#0}
+  m=${m#0}
+  s=${s#0}
+  ms=${ms#0}
+  echo $(((h*60*60*1000)+(m*60*1000)+(s*1000)+ms))
+}
+wlen=$(/usr/bin/ffmpeg -i $1 2>&1 | grep Duration | awk '{print $2}' | tr -d ,)
+
+wSTART=$(ts_get_msec $wlen)
+wSTOP=$(ts_get_msec $2)
+wDIFF=$((STOP-START))
+
+wMin=$((DIFF/(60*1000)))
+wSec=$(((DIFF%(60*1000))/1000))
+wMs=$(((DIFF%(60*1000))%1000))
+
+echo "${wMin}:${wSec}.${wMs}"
+
+echo $wSTART
+echo $wSTOP
+echo $wDIFF
+
+
+
+# IFS=:
+# set $wlen
+# wHour=$1
+# wMin=$2
+# wSec=$3
+# # echo "len = $wlen"
+# # echo "hour = $wHour"
+# # echo "min = $wMin"
+
+# set $wSubtraction
+# sHour=$1
+# sMin=$2
+# sSec=$3
+# # echo "sHour = $sHour"
+# # echo "sMin = $sMin"
+# # echo "sSec = $sSec"
+
+# IFS=.
+# set $wSec
+# wSec=$1
+# wMili=$2
+# # echo "sec = $wSec"
+# # echo "mili = $wMili" 
+
+# set $sSec
+# sSec=$1
+# sMili=$2
+
+# echo ""
+# echo "len = $wlen"
+# echo ""
+
+# echo ""
+# echo "hour = $wHour"
+# echo "min = $wMin"
+# echo "sec = $wSec"
+# echo "mili = $wMili" 
+# echo ""
+
+# echo ""
+# echo "sHour = $sHour"
+# echo "sMin = $sMin"
+# echo "sSec = $sSec"
+# echo "sMili = $sMili"
+# echo ""
