@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo ifconfig wlo1 up
