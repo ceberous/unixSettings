@@ -1,0 +1,2 @@
+#!/bin/bash
+node -e "try{var a1=new Buffer(process.argv[1],'base64');console.log(a1.toString());}catch(e){console.log('error decoding base64');}" $1
