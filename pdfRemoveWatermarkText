@@ -4,5 +4,9 @@ step1 = "pdftk %s output uncompressed.pdf uncompress" % sys.argv[1]
 os.system( step1 )
 step2 = "sed -e 's/.*%s.*//g' uncompressed.pdf > article.pdf" % sys.argv[2]
 os.system( step2 )
-step3 = "pdftk article.pdf cat 2-end output final.pdf"
+step3 = "pdftk article.pdf cat 2-end output unfixed.pdf"
 os.system( step3 )
+step4 = "pdftk unfixed.pdf output final.pdf compress"
+os.system( step4 )
+step5 = "rm uncompressed.pdf article.pdf unfixed.pdf"
+os.system( step5 )
