@@ -1,0 +1,3 @@
+#!/bin/bash
+# https://superuser.com/questions/604998/monitor-tcp-traffic-on-specific-port
+sudo ngrep -W byline -d any port $1 -q
