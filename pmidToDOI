@@ -1,0 +1,100 @@
+#!/usr/bin/env node
+const request = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/request" );
+const cheerio = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/cheerio" );
+const process = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/process" );
+
+function _m_request(r){return new Promise( async function(e,o){try{request(r,function(r,o,t){if(!r)return 200!==o.statusCode?void e("error"):void e(t);e("error")})}catch(r){console.log(r),o(r)}})}
+
+const NCBI_NIH_ARTICLE_BASE_URL = "https://www.ncbi.nlm.nih.gov/pubmed/";
+function GET_DOI_VIA_CHEERIO( wPubMedID ) {
+	return new Promise( async function( resolve , reject ) {
+		try {
+			const wURL2 = NCBI_NIH_ARTICLE_BASE_URL + wPubMedID;
+			
+			var wBody = await _m_request( wURL2 );
+			try { var $ = cheerio.load( wBody ); }
+			catch(err) { reject( "cheerio load failed" ); return; }
+
+			var wOBJ1 = {};
+			var wDOI = null;
+
+			var wTitle = $( ".rprt.abstract" ).find( "h1" );
+			//wTitle = $( wTitle[0] ).text();
+			//wOBJ1.title = wTitle;
+
+			var doi_text = $( 'div[class="cit"]' ).text();
+			var doi_start = doi_text.indexOf( "doi:" );
+			if ( doi_start !== -1 ) {
+				doi_text = doi_text.substring( ( doi_start + 5 ) , ( doi_text.length - 1 ) );
+				//console.log( doi_text );
+				doi_text = doi_text.split( " " )[0];
+				doi_text = doi_text.replace( /\s/g , "" );
+				if ( doi_text[ doi_text.length - 1 ] === "." ) {
+					doi_text = doi_text.substring( 0 , ( doi_text.length - 1 ) );
+				}
+				wDOI = doi_text;
+			}
+			else {
+				$( "a" ).each( function () {
+					var wID = $( this ).attr( "href" );
+					wDOI = wID.substring( 0 , 10 );
+					if ( wDOI === "//doi.org/" ) {
+						wDOI = wID.substring( 10 , wID.length );
+						console.log( "doi found in URL ..." );
+						console.log( wID );
+					}
+				});
+			}
+
+			//console.log( "\t\t--> " + wDOI );
+			resolve( wDOI );
+			// if ( wDOIOnly ) { resolve( wDOI ); return; }
+
+			// wOBJ1.pmid = wPubMedID;
+			// wOBJ1.mainURL = NCBI_NIH_ARTICLE_BASE_URL + wPubMedID;
+			// if ( wDOI ) {
+			// 	if ( wDOI.length > 3 ) {
+			// 		if ( wDOI !== "/home/abou" ) {
+			// 			wOBJ1[ "doi" ] = wDOI;
+			// 			if ( !isNaN( wDOI[ 0 ] ) && !isNaN( wDOI[ 1 ] ) ) {
+			// 				wOBJ1[ "doiB64" ] = EncodeB64( wDOI );
+			// 				wOBJ1[ "scihubURL" ] = SCI_HUB_BASE_URL + wDOI;
+			// 			}
+			// 			else { wOBJ1[ "doiB64" ] = EncodeB64( wOBJ1.mainURL ); }
+			// 		}
+			// 	}
+			// }
+			// resolve( wOBJ1 );
+		}
+		catch( error ) { console.log( error ); reject( error ); }
+	});
+}
+
+const BASE_URL = "https://api.altmetric.com/v1/pmid/";
+function CONVERT_PMID_TO_DOI( wPubMedID ) {
+	return new Promise( async function( resolve , reject ) {
+		try {
+			var wDOI = null;
+			var wJSON = await _m_request( BASE_URL + wPubMedID );
+			if ( wJSON !== "error" ) {
+				wJSON = JSON.parse( wJSON );
+				if ( wJSON[ "doi" ]  ) { wDOI = wJSON[ "doi" ]; }
+				else { wDOI = await GET_DOI_VIA_CHEERIO( wPubMedID ); }
+			}
+			else {
+				wDOI = await GET_DOI_VIA_CHEERIO( wPubMedID );
+			}
+			resolve( wDOI );
+		}
+		catch( error ) { console.log( error ); reject( error ); }
+	});
+}
+
+module.exports.convert = CONVERT_PMID_TO_DOI;
+
+( async () => {
+	const wPMID = process.argv[ 2 ] || "10868777";
+	const xDOI = await CONVERT_PMID_TO_DOI( wPMID );
+	console.log( xDOI );
+	console.log( "http://sci-hub.la/" + xDOI );
+})();
