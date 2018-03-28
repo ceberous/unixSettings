@@ -1,0 +1,2 @@
+#!/bin/bash
+cat /home/morpheous/Documents/TwitchSayings/hearts_color.txt
