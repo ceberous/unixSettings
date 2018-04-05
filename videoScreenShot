@@ -1,0 +1,2 @@
+#!/bin/bash
+ffmpeg -ss $2 -i $1 -y -f image2 -vcodec mjpeg -vframes 1 screenshot.jpg
