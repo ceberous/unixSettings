@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-const request = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/request" );
-const cheerio = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/cheerio" );
-const process = require( "/home/morpheous/.nvm/versions/node/v8.4.0/lib/node_modules/process" );
+
+const NodeGlobal = require( "/usr/local/bin/node_global.json" );
+
+const request = require( NodeGlobal.path + "request" );
+const cheerio = require( NodeGlobal.path + "cheerio" );
+const process = require( NodeGlobal.path + "process" );
 
 function _m_request(r){return new Promise( async function(e,o){try{request(r,function(r,o,t){if(!r)return 200!==o.statusCode?void e("error"):void e(t);e("error")})}catch(r){console.log(r),o(r)}})}
 
@@ -39,32 +42,15 @@ function GET_DOI_VIA_CHEERIO( wPubMedID ) {
 					var wID = $( this ).attr( "href" );
 					wDOI = wID.substring( 0 , 10 );
 					if ( wDOI === "//doi.org/" ) {
-						wDOI = wID.substring( 10 , wID.length );
-						console.log( "doi found in URL ..." );
-						console.log( wID );
+						//console.log( "doi found in URL ..." );
+						wDOI = wID.split( "doi.org/" )[1];
+						return false;
 					}
 				});
 			}
 
 			//console.log( "\t\t--> " + wDOI );
 			resolve( wDOI );
-			// if ( wDOIOnly ) { resolve( wDOI ); return; }
-
-			// wOBJ1.pmid = wPubMedID;
-			// wOBJ1.mainURL = NCBI_NIH_ARTICLE_BASE_URL + wPubMedID;
-			// if ( wDOI ) {
-			// 	if ( wDOI.length > 3 ) {
-			// 		if ( wDOI !== "/home/abou" ) {
-			// 			wOBJ1[ "doi" ] = wDOI;
-			// 			if ( !isNaN( wDOI[ 0 ] ) && !isNaN( wDOI[ 1 ] ) ) {
-			// 				wOBJ1[ "doiB64" ] = EncodeB64( wDOI );
-			// 				wOBJ1[ "scihubURL" ] = SCI_HUB_BASE_URL + wDOI;
-			// 			}
-			// 			else { wOBJ1[ "doiB64" ] = EncodeB64( wOBJ1.mainURL ); }
-			// 		}
-			// 	}
-			// }
-			// resolve( wOBJ1 );
 		}
 		catch( error ) { console.log( error ); reject( error ); }
 	});
@@ -96,5 +82,5 @@ module.exports.convert = CONVERT_PMID_TO_DOI;
 	const wPMID = process.argv[ 2 ] || "10868777";
 	const xDOI = await CONVERT_PMID_TO_DOI( wPMID );
 	console.log( xDOI );
-	console.log( "http://sci-hub.la/" + xDOI );
+	console.log( "http://sci-hub.tw/" + xDOI );
 })();
