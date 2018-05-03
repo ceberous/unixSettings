@@ -1,0 +1,60 @@
+#!/usr/bin/python
+import os , sys , json , requests , pprint , subprocess , urllib
+
+BASE_DIR = os.getcwd()
+ALL_TS_FP = os.path.join( BASE_DIR , "all.txt" )
+BASE_URL = "http://twitch-vod-cutter.appspot.com/?"
+
+wVOD_ID = sys.argv[ 1 ]
+wStartTime = sum( int( i ) * 60**index for index , i in enumerate(  sys.argv[ 2 ].split( ":" )[ ::-1 ] ) )
+wEndTime = sum( int( i ) * 60**index for index , i in enumerate(  sys.argv[ 3 ].split( ":" )[ ::-1 ] ) )
+params = dict(
+	vod_id=wVOD_ID ,
+	start=wStartTime ,
+	end=wEndTime ,
+	quality="0" ,
+	callback="angular.callbacks._0"
+)	
+print params
+print ""
+
+# 1.) Get File List
+data = requests.get( url=BASE_URL , params=params )
+binary = data.content
+binary = binary.split( "angular.callbacks._0(" )
+binary = binary[ 1 ][ :-1 ]
+binaryJSON = json.loads( binary )
+pprint.pprint( binaryJSON[ "pieces" ] )
+
+filePiecesFPList = []
+for file in binaryJSON[ "pieces" ]:
+	wName = file.split( "/" )
+	wName = wName[ -1 ]
+	filePiecesFPList.append( os.path.join( BASE_DIR , wName ) )
+
+# 2.) Download Files
+print ""
+for index , file in enumerate( binaryJSON[ "pieces" ] ):
+	print "Downloading [ " + str( index + 1 ) + " ] of " + str( len( filePiecesFPList ) )  + " --> " + file
+	urllib.urlretrieve( file , filePiecesFPList[ index ] )
+
+# 3.) Write File List maybe for ffmpeg
+with open( ALL_TS_FP , "w+" ) as allTSFile:
+	for index , file in enumerate( binaryJSON[ "pieces" ] ):
+		print "Downloading --> " + file
+		allTSFile.write( "file " + filePiecesFPList[ index ] + "\n" )
+
+	
+# 4.) Combine File List
+print "\nMerging Files\n"
+print subprocess.check_output( [ "ffmpeg" , "-f" , "concat" , "-safe" , "0" , "-i" , ALL_TS_FP , "-c" , "copy" , "all.ts" ] )
+
+# 5.) Convert to mp4
+print "\nConverting to mp4\n"
+print subprocess.check_output( [ "ffmpeg" , "-i" , "all.ts" , "-c" , "copy" , "-bsf:a" , "aac_adtstoasc" , "cut.mp4" ] )
+
+# 6.) Remove Temp Files
+for file in filePiecesFPList:
+	os.remove( file )
+os.remove( ALL_TS_FP )
+os.remove( os.path.join( BASE_DIR , "all.ts" ) )
