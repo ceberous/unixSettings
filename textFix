@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+import sys , string , unicodedata
+from random import random
+
+text = ""
+if len( sys.argv ) < 2:
+	print( "No String Provided" )
+	sys.exit( 1 )
+text = sys.argv[ 1 ]
+
+manipulation_method = "title"
+if len( sys.argv ) == 3:
+	manipulation_method = sys.argv[ 2 ]
+
+
+if ( manipulation_method == "title" ):
+	text = string.capwords( text )
+elif ( manipulation_method == "downcase" or manipulation_method == "down" or manipulation_method == "dc" or manipulation_method == "lower" ):
+	text = text.decode( "utf-8" ).lower()
+elif ( manipulation_method == "uppercase" or manipulation_method == "upper" or manipulation_method == "uc" or manipulation_method == "up" ):
+	text = text.decode( "utf-8" ).upper()
+elif( manipulation_method == "random" or manipulation_method == "spongebob" or manipulation_method == "sb" ):
+	is_letter = lambda c: unicodedata.category( c ).startswith( "L" )
+	random_case = lambda c: c.upper() if random() < 0.5 else c.lower()
+	transform = lambda c: ( random_case( c ) if is_letter( c ) and random() < 1.0 else c )
+	text = u''.join( map(transform , text ) )
+
+print( "" )
+print( text )
