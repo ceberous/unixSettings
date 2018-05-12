@@ -1,8 +1,8 @@
 [ui-axismap]
-x1^dead:2700 = REL_X:750:-1
-y1^dead:2700 = REL_Y:750:-1
-x2^dead:4000 = REL_X:450:-1
-y2^dead:4000 = REL_Y:450:-1
+x1^dead:0000 = REL_X:750:-1
+y1^dead:0000 = REL_Y:750:-1
+x2^dead:0000 = REL_X:450:-1
+y2^dead:0000 = REL_Y:450:-1
 
 [ui-buttonmap]
 a = BTN_LEFT
