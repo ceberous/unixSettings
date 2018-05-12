@@ -1,6 +1,6 @@
 [ui-axismap]
-x1^dead:500 = REL_X:800:-1
-y1^dead:500 = REL_Y:800:-1
+x1^dead:2700 = REL_X:750:-1
+y1^dead:2700 = REL_Y:750:-1
 x2^dead:4000 = REL_X:450:-1
 y2^dead:4000 = REL_Y:450:-1
 
