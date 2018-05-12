@@ -1,0 +1,30 @@
+[ui-axismap]
+x1^dead:500 = REL_X:800:-1
+y1^dead:500 = REL_Y:800:-1
+x2^dead:4000 = REL_X:450:-1
+y2^dead:4000 = REL_Y:450:-1
+
+[ui-buttonmap]
+a = BTN_LEFT
+b = KEY_ENTER
+x = KEY_BACKSPACE
+y = BTN_RIGHT
+rb = REL_WHEEL:-1:20
+lb = REL_WHEEL:1:20
+tl = KEY_BACKSPACE
+tr = KEY_SPACE
+
+[ui-buttonmap]
+dl = KEY_LEFT
+dr = KEY_RIGHT
+du = KEY_UP
+dd = KEY_DOWN
+lt = BTN_LEFT
+rt = BTN_LEFT
+
+[ui-buttonmap]
+start = BTN_BACK
+back = BTN_FORWARD
+guide = KEY_ESC
+
+# EOF #
