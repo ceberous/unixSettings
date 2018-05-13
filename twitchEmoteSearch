@@ -3,7 +3,6 @@ import sys , os , io
 import distutils.dir_util
 import json
 import urllib
-from pyquery import *
 
 BASE_DIR = os.path.expanduser( "~" )
 BASE_DIR = os.path.join( BASE_DIR , "TwitchEmotes" )
@@ -13,24 +12,6 @@ IMAGES_JSON_URL = "https://twitchemotes.com/api_cache/v3/images.json"
 #SETS_JSON_URL = "https://twitchemotes.com/api_cache/v3/sets.json"
 
 EMOTE_ID = sys.argv[ 1 ]
-try:
-	float( EMOTE_ID )
-except ValueError:
-	URL = "https://twitchemotes.com/search?query=" + EMOTE_ID
-	print URL
-	html = PyQuery( url=URL )
-	found_id = html( "a.emote-name" )
-	if found_id is not None:
-		found_id = found_id.attr( "href" )
-		if found_id is not None:
-			found_id = found_id.split( "/emotes/" )
-			if found_id is not None:
-				EMOTE_ID = found_id[ 1 ]
-
-	if found_id is None:
-		sys.exit(1)
-
-print "Searching EMOTE-ID --> " + EMOTE_ID
 
 def search_json():
 	global EMOTE_ID
@@ -42,16 +23,22 @@ def search_json():
 			print "Channel Name == " + data[ EMOTE_ID ][ "channel_name" ]
 		return True
 	else:
+		for emote_id in data:
+			if data[ emote_id ][ "code" ] == EMOTE_ID:
+				print data[ emote_id ]
+				if data[ emote_id ][ "channel_name" ]:
+					print "Channel Name == " + data[ emote_id ][ "channel_name" ]	
+				return True
 		return False
 
-if os.path.isfile( IMAGES_JSON_FP ):
-	if not search_json():
-		print "Re-Downloading images.json"
-		urllib.urlretrieve( IMAGES_JSON_URL , IMAGES_JSON_FP )
-		if not search_json():
-			print "Not in Twitch Database ???"
-else:
+def re_download_and_search():
 	print "Re-Downloading images.json"
 	urllib.urlretrieve( IMAGES_JSON_URL , IMAGES_JSON_FP )
 	if not search_json():
 		print "Not in Twitch Database ???"
+
+if os.path.isfile( IMAGES_JSON_FP ):
+	if not search_json():
+		re_download_and_search()
+else:
+	re_download_and_search()
