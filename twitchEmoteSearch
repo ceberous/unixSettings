@@ -2,6 +2,7 @@
 import sys , os , io
 import distutils.dir_util
 import json
+import pprint
 import urllib
 
 BASE_DIR = os.path.expanduser( "~" )
@@ -9,29 +10,46 @@ BASE_DIR = os.path.join( BASE_DIR , "TwitchEmotes" )
 distutils.dir_util.mkpath( BASE_DIR )
 IMAGES_JSON_FP = os.path.join( BASE_DIR , "images.json" )
 IMAGES_JSON_URL = "https://twitchemotes.com/api_cache/v3/images.json"
-#SETS_JSON_URL = "https://twitchemotes.com/api_cache/v3/sets.json"
+SUBSCRIBER_JSON_FP = os.path.join( BASE_DIR , "subscriber.json" )
+SUBSCRIBER_JSON_URL = "https://twitchemotes.com/api_cache/v3/subscriber.json"
 
 EMOTE_ID = sys.argv[ 1 ]
 
 def search_json():
 	global EMOTE_ID
+	global IMAGES_JSON_FP
+	global SUBSCRIBER_JSON_FP
 	json_data = open( IMAGES_JSON_FP )
 	data = json.load( json_data )
 	if EMOTE_ID in data:
 		print data[ EMOTE_ID ]
 		if data[ EMOTE_ID ][ "channel_name" ]:
-			print "Channel Name == " + data[ EMOTE_ID ][ "channel_name" ]
+			print "\nhttps://twitch.tv/" + data[ EMOTE_ID ][ "channel_name" ]
+			json_data_2 = open( SUBSCRIBER_JSON_FP )
+			data_2 = json.load( json_data_2 )
+			channel_id = data[ EMOTE_ID ][ "channel_id" ]
+			if data_2[ channel_id ]:
+				pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+			else:
+				re_download_subscriber_json( channel_id )
 		return True
 	else:
 		for emote_id in data:
 			if data[ emote_id ][ "code" ] == EMOTE_ID:
 				print data[ emote_id ]
 				if data[ emote_id ][ "channel_name" ]:
-					print "Channel Name == " + data[ emote_id ][ "channel_name" ]	
+					print "\nhttps://twitch.tv/" + data[ emote_id ][ "channel_name" ]
+					json_data_2 = open( SUBSCRIBER_JSON_FP )
+					data_2 = json.load( json_data_2 )
+					channel_id = data[ emote_id ][ "channel_id" ]
+					if data_2[ channel_id ]:
+						pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+					else:
+						re_download_subscriber_json( channel_id )
 				return True
 		return False
 
-def re_download_and_search():
+def re_download_and_search_images_json():
 	print "Re-Downloading images.json"
 	global IMAGES_JSON_URL
 	global IMAGES_JSON_FP
@@ -39,8 +57,21 @@ def re_download_and_search():
 	if not search_json():
 		print "Not in Twitch Database ???"
 
+def re_download_subscriber_json( channel_id ):
+	print "Re-Downloading subscriber.json"
+	global SUBSCRIBER_JSON_URL
+	global SUBSCRIBER_JSON_FP
+	urllib.urlretrieve( SUBSCRIBER_JSON_URL , SUBSCRIBER_JSON_FP )
+	if channel_id is not None:
+		json_data_2 = open( SUBSCRIBER_JSON_FP )
+		data_2 = json.load( json_data_2 )
+		pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+
+if not os.path.isfile( SUBSCRIBER_JSON_FP ):
+	re_download_subscriber_json( None )
+
 if os.path.isfile( IMAGES_JSON_FP ):
 	if not search_json():
-		re_download_and_search()
+		re_download_and_search_images_json()
 else:
-	re_download_and_search()
+	re_download_and_search_images_json()
