@@ -33,6 +33,8 @@ def search_json():
 
 def re_download_and_search():
 	print "Re-Downloading images.json"
+	global IMAGES_JSON_URL
+	global IMAGES_JSON_FP
 	urllib.urlretrieve( IMAGES_JSON_URL , IMAGES_JSON_FP )
 	if not search_json():
 		print "Not in Twitch Database ???"
