@@ -2,7 +2,6 @@
 import sys , os , io
 import distutils.dir_util
 import json
-import pprint
 import urllib
 
 BASE_DIR = os.path.expanduser( "~" )
@@ -29,7 +28,10 @@ def search_json():
 			data_2 = json.load( json_data_2 )
 			channel_id = data[ EMOTE_ID ][ "channel_id" ]
 			if data_2[ channel_id ]:
-				pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+				str_1 = ""
+				for i in range( len( data_2[ channel_id ][ "emotes" ] ) ):
+					str_1 = str_1 + data_2[ channel_id ][ "emotes" ][ i ][ "code" ] + " , "
+				print str_1
 			else:
 				re_download_subscriber_json( channel_id )
 		return True
@@ -43,7 +45,10 @@ def search_json():
 					data_2 = json.load( json_data_2 )
 					channel_id = data[ emote_id ][ "channel_id" ]
 					if data_2[ channel_id ]:
-						pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+						str_1 = ""
+						for i in range( len( data_2[ channel_id ][ "emotes" ] ) ):
+							str_1 = str_1 + data_2[ channel_id ][ "emotes" ][ i ][ "code" ] + " , "
+						print str_1
 					else:
 						re_download_subscriber_json( channel_id )
 				return True
@@ -65,7 +70,10 @@ def re_download_subscriber_json( channel_id ):
 	if channel_id is not None:
 		json_data_2 = open( SUBSCRIBER_JSON_FP )
 		data_2 = json.load( json_data_2 )
-		pprint.pprint( data_2[ channel_id ][ "emotes" ] )
+		str_1 = ""
+		for i in range( len( data_2[ channel_id ][ "emotes" ] ) ):
+			str_1 = str_1 + data_2[ channel_id ][ "emotes" ][ i ][ "code" ] + " , "
+		print str_1
 
 if not os.path.isfile( SUBSCRIBER_JSON_FP ):
 	re_download_subscriber_json( None )
