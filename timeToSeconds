@@ -1,0 +1,4 @@
+#!/usr/bin/python
+import sys
+if len( sys.argv ) > 1:
+	print sum( int( i ) * 60**index for index , i in enumerate(  sys.argv[ 1 ].split( ":" )[ ::-1 ] ) )
