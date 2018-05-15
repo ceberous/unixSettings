@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo xboxdrv --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv

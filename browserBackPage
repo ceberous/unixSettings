@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/xdotool key Alt_L+0xff51
