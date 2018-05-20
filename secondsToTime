@@ -1,0 +1,4 @@
+#!/usr/bin/python
+import sys , datetime
+if len( sys.argv ) > 1:
+	print str( datetime.timedelta( seconds=float( sys.argv[ 1 ] ) ) )
