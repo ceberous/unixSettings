@@ -1,0 +1,4 @@
+#!/bin/bash
+sudo rm /var/lib/apt/lists/lock || true
+sudo rm /var/cache/apt/archives/lock || true
+sudo rm /var/lib/dpkg/lock || true
