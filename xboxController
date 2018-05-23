@@ -4,6 +4,9 @@
 #sudo apt-get update
 #sudo apt-get install ubuntu-xboxdrv
 
+#sudo service xboxdrv stop
+
+
 #sudo xboxdrv --detach-kernel-driver --device-by-id 0079:184f --type xbox360 --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv
-sudo xboxdrv --detach-kernel-driver --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv
-#sudo xboxdrv --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv
+#sudo xboxdrv --detach-kernel-driver --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv
+sudo xboxdrv --config /home/morpheous/.config/xboxdrv/mouse.xboxdrv
