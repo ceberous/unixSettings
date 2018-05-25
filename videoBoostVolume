@@ -1,0 +1,4 @@
+#!/bin/bash
+filename=$(basename -- "$1")
+#extension="${filename##*.}"
+ffmpeg -i $1 -vcodec copy -af "volume=$2dB" -strict -2 boosted-$2db-$filename
