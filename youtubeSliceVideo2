@@ -1,0 +1,58 @@
+#!/usr/bin/python
+import sys
+import datetime
+import subprocess
+
+format = "%H:%M:%S.%f"
+endDate = datetime.datetime.strptime( sys.argv[3] , format )
+startDate = datetime.datetime.strptime( sys.argv[2] , format )
+diff = endDate - startDate
+diff = str(diff)
+diff = diff.strip()
+print diff
+
+def get_mp4_formats( wURL ):
+	try:
+		wFormats = subprocess.check_output( [ "youtube-dl" , "-F" , wURL ] )
+	except subprocess.CalledProcessError as e:
+		print e.output
+		sys.exit(1)
+	wFormats = wFormats.split( "\n" )
+	wMP4_Formats = []
+	for i , format in enumerate( wFormats ):
+		if format:
+			#print "{} == {}".format( i , format )
+			wType = format.split()
+			if wType[ 1 ] == "mp4":
+				wMP4_Formats.append( wType[ 0 ] )
+	return wMP4_Formats
+
+def get_download_url( wURL , wFormat ):
+	try:
+		dURL = subprocess.check_output( [ "youtube-dl" , "-f" , wFormat , "--get-url" , wURL ] )
+		return dURL
+	except subprocess.CalledProcessError as e:
+		print e.output
+		sys.exit(1)
+
+wMP4_Formats = get_mp4_formats( sys.argv[ 1 ] )
+wDone = False
+wStartTime = str( sys.argv[2] )
+wStartTime = wStartTime.strip()
+while wDone == False:
+	if len( wMP4_Formats ) > 0:
+		wFormat = wMP4_Formats.pop()
+		dURL = get_download_url( sys.argv[ 1 ] , wFormat )
+		dURL = str( dURL )
+		dURL = dURL.strip()
+		wCMD_Array = [ "ffmpeg" , "-ss" , wStartTime  , "-i" , dURL , "-t" , diff , "-c:v" , "copy" , "-flags" , "+global_header" ,  "-c:a" , "copy" , "cut.mp4" ]
+		print wCMD_Array
+        	try:
+			wOUT = subprocess.check_output( wCMD_Array )
+			#print wOUT
+			wDone = True
+		except subprocess.CalledProcessError as e:
+			#print e.output
+			pass
+	else:
+		wDone = True
