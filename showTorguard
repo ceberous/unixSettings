@@ -1,0 +1,4 @@
+#!/bin/bash
+id=$(xdotool search --name "TorGuard")
+wmctrl -ia $id
+wmctrl -i -r $id -b remove,skip_taskbar
