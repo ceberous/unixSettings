@@ -1,0 +1,58 @@
+#!/usr/bin/python
+from time import sleep
+import json
+import os
+import requests
+import sys
+
+# https://github.com/TysonNgo/twitch-vod-chat-downloader
+
+# sys.argv[ 1 ] == VOD-ID
+# sys.argv[ 2 ] == Client-ID
+
+def get_time(comment):
+	s = int(comment["content_offset_seconds"])
+	m,s = int(s/60), int(s%60)
+	h,m = int(m/60), int(m%60)
+
+	return str(h).zfill(2)+":"+str(m).zfill(2)+":"+str(s).zfill(2)
+
+
+def main():
+	video_id = sys.argv[1]
+	base_url = "https://api.twitch.tv/v5/videos/%s/comments?" % (video_id)
+	headers = {
+		"Client-ID": sys.argv[2]
+	}
+
+	c = []
+
+	comments = requests.get(base_url+"content_offset_seconds=0", headers=headers)
+
+	if not comments.ok:
+		print("invalid video id or client id")
+		sys.exit(1)
+
+	comments = comments.json()
+	while ("_next" in comments):
+		c.extend(comments["comments"])
+		for comment in comments["comments"]:
+			print(get_time(comment))
+		comments = requests.get(base_url+"cursor="+comments["_next"], headers=headers).json()
+		sleep(0.2)
+
+	c.extend(comments["comments"])
+	# for index , comment in enumerate( comments["comments"] ):
+	# 	item = get_time(comment)
+	# 	comments["comments"][ index ][ "content_offset_time" ] = item
+	# 	print(item)
+	for index , comment in enumerate( c ):
+		item = get_time(comment)
+		c[ index ][ "content_offset_time" ] = item
+		print(item)	
+
+	with open( video_id + ".json" , "w" ) as f:
+		json.dump(c, f, indent=1)
+
+if __name__ == "__main__":
+	main()
