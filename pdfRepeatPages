@@ -1,0 +1,9 @@
+#!/bin/bash
+filename=$(basename -- "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+
+str=$(printf "%$2s")
+times=${str// /1-end }
+
+pdftk $1 cat $times output $filename-$2x.pdf
