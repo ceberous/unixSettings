@@ -1,0 +1,4 @@
+#!/bin/bash
+cat ~/Documents/Twitch/Sayings/OceanMan.txt | xclip -selection c
+echo ""
+cat ~/Documents/Twitch/Sayings/OceanMan.txt
