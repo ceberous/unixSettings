@@ -1,0 +1,3 @@
+#!/bin/bash
+rsync -rvz -e "ssh -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null  -o LogLevel=ERROR  -F /dev/null \
+-i /home/$USER/.ssh/$KEY" --progress $LOCAL_FILE_PATH $USER@$SERVER_IP:$REMOTE_FILE_PATH
