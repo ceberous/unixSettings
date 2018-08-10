@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh-key -t rsa -b 8192
