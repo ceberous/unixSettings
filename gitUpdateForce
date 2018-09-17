@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -f ./.git/index.lock
 git reset --hard HEAD
-git clean -f 
-git pull
+git clean -f
+git pull origin master
