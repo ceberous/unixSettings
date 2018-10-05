@@ -1,6 +1,9 @@
 [
-	{ "keys": ["ctrl+shift+space"], "command": "toggle_side_bar" },
+	{ "keys": ["ctrl+shift+space"], "command": "toggle_side_bar" } ,
 
-	{ "keys": ["ctrl+shift+;"], "command": "move_to", "args": {"to": "eol", "extend": false} },
+	{ "keys": ["ctrl+shift+;"] , "command": "move_to", "args": {"to": "eol", "extend": false} } ,
 
+	{ "keys": ["super+alt+f"], "command": "js_prettier" } ,
+
+	{ "keys": ["ctrl+shift+x"], "command": "unexpand_tabs", "args": { "set_translate_tabs": false } }
 ]
