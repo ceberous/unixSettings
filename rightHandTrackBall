@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# sudo apt-get install x11proto-core-dev
+# grep -l '#define.*XK_' /usr/include/X11/*.h
+
 # xmodmap -pme
 # xev -event keyboard | grep keycode
 # xev | grep button
@@ -32,3 +35,33 @@ SCROLL_WHEEL_UP=$WHEEL_UP
 SCROLL_WHEEL_DOWN=$WHEEL_DOWN
 
 xinput --set-button-map $id $FN1 $SCROLL_WHEEL_CLICK $FN2 $ARROW_DOWN $ARROW_UP 6 7 $SCROLL_WHEEL_DOWN $SCROLL_WHEEL_UP $L $R $FN3
+
+
+# nano ~/.xbindkeysrc
+
+###########################
+# xbindkeys configuration #
+###########################
+#keystate_numlock = enable
+#keystate_capslock = enable
+#keystate_scrolllock= enable
+
+# Examples of commands:
+
+#"xte 'key Page_Up'"
+	#b:4
+
+#"xte 'key Page_Down'"
+	#b:5
+
+#"xdotool key Shift + Page_Down"
+#"xdotool key Down Down Down"
+	#b:8
+
+#"xdotool key Shift + Page_Up"
+#"xdotool key Up Up Up"
+	#b:9
+
+##################################
+# End of xbindkeys configuration #
+##################################
