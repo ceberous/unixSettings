@@ -6,10 +6,11 @@
 # xmodmap -pme
 # xev -event keyboard | grep keycode
 # xev | grep button
-# xinput test 10 | grep button
+# xinput test 10 | grep "button press"
 # xbindkeys -k
 
 id=$(xinput | grep -m 1 "ELECOM TrackBall Mouse HUGE TrackBall" | sed 's/^.*id=\([0-9]*\)[ \t].*$/\1/')
+
 
 #Button Constant Numbers
 LEFT_CLICK=1
@@ -31,10 +32,16 @@ FN3=$RIGHT_CLICK
 ARROW_UP=$LEFT_ARROW
 ARROW_DOWN=$RIGHT_ARROW
 SCROLL_WHEEL_CLICK=$MIDDLE_CLICK
-SCROLL_WHEEL_UP=$WHEEL_UP 
+SCROLL_WHEEL_UP=$WHEEL_UP
 SCROLL_WHEEL_DOWN=$WHEEL_DOWN
 
-xinput --set-button-map $id $FN1 $SCROLL_WHEEL_CLICK $FN2 $ARROW_DOWN $ARROW_UP 6 7 $SCROLL_WHEEL_DOWN $SCROLL_WHEEL_UP $L $R $FN3
+#"Button Left" "Button Middle" "Button Right"
+#"Button Wheel Up" "Button Wheel Down" "Button Horiz Wheel Left" "Button Horiz Wheel Right"
+# "Button Side" "Button Extra" "Button Forward" "Button Back" None
+
+xinput --set-button-map $id $FN1 $SCROLL_WHEEL_CLICK $FN2 \
+	$SCROLL_WHEEL_UP $SCROLL_WHEEL_DOWN 6 7 \
+	$ARROW_UP $ARROW_DOWN $L $R $FN3
 
 
 # nano ~/.xbindkeysrc
@@ -49,18 +56,10 @@ xinput --set-button-map $id $FN1 $SCROLL_WHEEL_CLICK $FN2 $ARROW_DOWN $ARROW_UP 
 # Examples of commands:
 
 #"xte 'key Page_Up'"
-	#b:4
+	#b:9
 
 #"xte 'key Page_Down'"
-	#b:5
-
-#"xdotool key Shift + Page_Down"
-#"xdotool key Down Down Down"
 	#b:8
-
-#"xdotool key Shift + Page_Up"
-#"xdotool key Up Up Up"
-	#b:9
 
 ##################################
 # End of xbindkeys configuration #
