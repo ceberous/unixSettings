@@ -1,3 +1,34 @@
 #!/bin/bash
+
+# xmodmap -pme
+# xev -event keyboard | grep keycode
+# xev | grep button
+# xinput test 10 | grep button
+# xbindkeys -k
+
 id=$(xinput | grep -m 1 "ELECOM TrackBall Mouse HUGE TrackBall" | sed 's/^.*id=\([0-9]*\)[ \t].*$/\1/')
-xinput --set-button-map $id 1 2 3 4 5 6 7 8 9 1 3 3 13 14 15 16
+
+#Button Constant Numbers
+LEFT_CLICK=1
+MIDDLE_CLICK=2
+RIGHT_CLICK=3
+WHEEL_UP=4
+WHEEL_DOWN=5
+WHEEL__LEFT=6
+WHEEL_RIGHT=7
+LEFT_ARROW=8
+RIGHT_ARROW=9
+
+# Custom Button Map
+FN1=$LEFT_CLICK
+FN2=$RIGHT_CLICK
+L=$LEFT_CLICK
+R=$RIGHT_CLICK
+FN3=$RIGHT_CLICK
+ARROW_UP=$LEFT_ARROW
+ARROW_DOWN=$RIGHT_ARROW
+SCROLL_WHEEL_CLICK=$MIDDLE_CLICK
+SCROLL_WHEEL_UP=$WHEEL_UP 
+SCROLL_WHEEL_DOWN=$WHEEL_DOWN
+
+xinput --set-button-map $id $FN1 $SCROLL_WHEEL_CLICK $FN2 $ARROW_DOWN $ARROW_UP 6 7 $SCROLL_WHEEL_DOWN $SCROLL_WHEEL_UP $L $R $FN3
