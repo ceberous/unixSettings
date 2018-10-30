@@ -40,7 +40,7 @@ print( "Duration == " + str( duration_time_delta ) )
 
 #2.) Calculate Number of Source Videos Needed for Requested Time Duration
 total = timedelta( hours=0 , minutes=0 , seconds=0 , milliseconds=0 )
-count = 0
+count = 1
 while total < ceiling_time_delta:
 	#print( str( total ) )
 	count += 1
