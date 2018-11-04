@@ -1,4 +1,4 @@
 #!/bin/bash
-id=$(xdotool search --name "TorGuard")
+id=$(xdotool search --name "TorGuard" | tail -1)
 xdotool windowminimize $id
 wmctrl -i -r $id -b add,skip_taskbar
