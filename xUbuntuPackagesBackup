@@ -11,6 +11,10 @@ saveOBJ = defaultdict( lambda : None )
 sources_list = open( "/etc/apt/sources.list" , "r" ).read()
 saveOBJ[ "etc_apt_sources_list" ] = sources_list
 
+ppa_list = subprocess.check_output( [ "grep -r --include '*.list' '^deb ' /etc/apt/sources.list /etc/apt/sources.list.d/" ] , shell=True )
+ppa_list = ppa_list.split( "\n" )
+saveOBJ[ "ppa_list" ] = ppa_list
+
 installed_packages = subprocess.check_output( [ "(zcat $(ls -tr /var/log/apt/history.log*.gz); cat /var/log/apt/history.log) 2>/dev/null | egrep '^(Start-Date:|Commandline:)' | grep -v aptdaemon | egrep '^Commandline: apt-get install'" ] , shell=True )
 saveOBJ[ "commands" ] = []
 for line in installed_packages.split( "\n" ):
