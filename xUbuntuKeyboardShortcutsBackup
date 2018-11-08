@@ -2,9 +2,13 @@
 import subprocess
 import json
 from os import path
+import distutils.dir_util
 from collections import defaultdict
 homeFolder = path.expanduser("~")
 savePath = path.join( homeFolder , ".config" , ".xubuntu-keyboard-shortcuts.json" )
+backupFolder = path.join( homeFolder , "BACKUP" , "Keyboard" )
+distutils.dir_util.mkpath( backupFolder )
+backupSavePath = path.join( backupFolder , "xubuntu-keyboard-shortcuts.json" )
 
 shortcuts = subprocess.check_output( [ "/usr/bin/xfconf-query -c xfce4-keyboard-shortcuts -l -v" ] , shell=True )
 
@@ -22,3 +26,5 @@ for index , rule in enumerate( shortcuts.splitlines() ):
 print( "Saving to --> " + savePath )
 with open( savePath , "w+" ) as outfile:
 	json.dump( saveOBJ , outfile )
+
+subprocess.check_output( [ "cp " + savePath + " " + backupSavePath ] , shell=True )

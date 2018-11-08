@@ -1,0 +1,20 @@
+#!/usr/bin/python
+#import subprocess
+import distutils.dir_util
+import tarfile
+
+#import json
+from os import path
+#from collections import defaultdict
+
+homeFolder = path.expanduser("~")
+backupFolder = path.join( homeFolder , "BACKUP" , "SublimeText3" )
+distutils.dir_util.mkpath( backupFolder )
+backupTARPath = path.join( backupFolder , "sublime-text-3-config.tar.gz" )
+sublimeConfigFolder = path.join( homeFolder , ".config" , "sublime-text-3" )
+
+# 1.) Create Tar Archive of Config Folder
+print backupTARPath
+#tarArchive = subprocess.check_output( [ "tar -zvfC sublime-text-3-config.tar.gz " + backupFolder ] , shell=True )
+with tarfile.open( backupTARPath , "w:gz" ) as tar:
+	tar.add( sublimeConfigFolder , arcname=path.basename( sublimeConfigFolder ) )

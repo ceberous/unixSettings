@@ -2,18 +2,17 @@
 import subprocess
 import json
 from os import path
+import distutils.dir_util
 from collections import defaultdict
 homeFolder = path.expanduser("~")
 savePath = path.join( homeFolder , ".config" , ".xubuntu-packages-backup.json" )
+backupFolder = path.join( homeFolder , "BACKUP" , "Packages" )
+distutils.dir_util.mkpath( backupFolder )
+backupSavePath = path.join( backupFolder , "xubuntu-packages.json" )
 
 saveOBJ = defaultdict( lambda : None )
 
-sources_list = open( "/etc/apt/sources.list" , "r" ).read()
-saveOBJ[ "etc_apt_sources_list" ] = sources_list
-
-ppa_list = subprocess.check_output( [ "grep -r --include '*.list' '^deb ' /etc/apt/sources.list /etc/apt/sources.list.d/" ] , shell=True )
-ppa_list = ppa_list.split( "\n" )
-saveOBJ[ "ppa_list" ] = ppa_list
+saveOBJ[ "etc_apt_sources_list" ] = open( "/etc/apt/sources.list" , "r" ).read()
 
 installed_packages = subprocess.check_output( [ "(zcat $(ls -tr /var/log/apt/history.log*.gz); cat /var/log/apt/history.log) 2>/dev/null | egrep '^(Start-Date:|Commandline:)' | grep -v aptdaemon | egrep '^Commandline: apt-get install'" ] , shell=True )
 saveOBJ[ "commands" ] = []
@@ -28,3 +27,5 @@ for line in installed_packages.split( "\n" ):
 print( "Saving to --> " + savePath )
 with open( savePath , "w+" ) as outfile:
 	json.dump( saveOBJ , outfile )
+
+subprocess.check_output( [ "cp " + savePath + " " + backupSavePath ] , shell=True )

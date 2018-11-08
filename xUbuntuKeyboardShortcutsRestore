@@ -3,15 +3,24 @@
 # xfconf-query --create --channel xfce4-keyboard-shortcuts --property "/commands/custom/<Control><Alt>Down" --type string --set 'gedit'`
 import subprocess
 import json
+import distutils.dir_util
 from os import path
 from collections import defaultdict
 homeFolder = path.expanduser("~")
 savePath = path.join( homeFolder , ".config" , ".xubuntu-keyboard-shortcuts.json" )
+backupFolder = path.join( homeFolder , "BACKUP" , "Keyboard" )
+distutils.dir_util.mkpath( backupFolder )
+backupSavePath = path.join( backupFolder , "xubuntu-keyboard-shortcuts.json" )
+if path.isfile( savePath ) == False:
+	if path.isfile( backupSavePath ) == False:
+		print( "No Save Files Found" )
+		sys.exit( 1 )
+	else:
+		subprocess.check_output( [ "cp " + backupSavePath , savePath ] , shell=True )
 
 data = None
 with open( savePath ) as f:
 	data = json.loads( f.read() )
-
 
 set_cmd_base = "xfconf-query --create --channel xfce4-keyboard-shortcuts --property '"
 for key in data:
