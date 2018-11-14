@@ -1,2 +1,2 @@
 #!/bin/bash
-streamlink --hls-segment-threads=4 --hls-live-edge=3 --ringbuffer-size=196M --player-no-close $1 audio_only
+streamlink --hls-segment-threads=4 --hls-live-edge=3 --ringbuffer-size=196M --player-no-close twitch.tv/$1 audio_only
