@@ -37,7 +37,10 @@ for line in all_debs.split( "\n" ):
 	saveOBJ[ "packages" ].add( line )
 
 saveOBJ[ "packages" ].remove( "" )
+saveOBJ[ "packages" ] = sorted( saveOBJ[ "packages" ] )
 saveOBJ[ "packages" ] = list( saveOBJ[ "packages" ] )
+
+saveOBJ[ "commands" ] = sorted( saveOBJ[ "commands" ] )
 
 print( "Saving to --> " + savePath )
 with open( savePath , "w+" ) as outfile:
