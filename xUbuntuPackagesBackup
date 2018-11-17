@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from sets import Set
 import subprocess
 import json
 from os import path
@@ -16,13 +17,27 @@ saveOBJ[ "etc_apt_sources_list" ] = open( "/etc/apt/sources.list" , "r" ).read()
 
 installed_packages = subprocess.check_output( [ "(zcat $(ls -tr /var/log/apt/history.log*.gz); cat /var/log/apt/history.log) 2>/dev/null | egrep '^(Start-Date:|Commandline:)' | grep -v aptdaemon | egrep '^Commandline: apt-get install'" ] , shell=True )
 saveOBJ[ "commands" ] = []
+saveOBJ[ "packages" ] = Set()
 for line in installed_packages.split( "\n" ):
 	line = line.split( "Commandline: " )
 	if len( line ) > 1:
 		line = line[ 1 ]
 		if ( line != "apt-get install -f" ):
+			pkgs = line.split( "apt-get install" )[ 1 ]
+			pkgs = pkgs.split( " " )
+			[ saveOBJ[ "packages" ].add( item ) for item in pkgs if item.find( "-" ) == -1 ]
 			saveOBJ[ "commands" ].append( line )
 
+
+all_debs = subprocess.check_output( [ "dpkg --get-selections" ] , shell=True )
+for line in all_debs.split( "\n" ):
+	line = line.strip()
+	line = line.split( " " )[ 0 ]
+	line = line.split( "\t" )[ 0 ]
+	saveOBJ[ "packages" ].add( line )
+
+saveOBJ[ "packages" ].remove( "" )
+saveOBJ[ "packages" ] = list( saveOBJ[ "packages" ] )
 
 print( "Saving to --> " + savePath )
 with open( savePath , "w+" ) as outfile:
