@@ -1,0 +1,8 @@
+#!/bin/bash
+id=$(xdotool search --name "VLC" | tail -1)
+wmctrl -ia $id
+wmctrl -i -r $id -b remove,skip_taskbar
+#sleep .5
+#xdotool key "Ctrl+H"
+#sleep .5
+wmctrl -i -r $id -b toggle,fullscreen
