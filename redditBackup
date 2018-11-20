@@ -8,78 +8,95 @@ import distutils.dir_util
 from os import path
 from collections import defaultdict
 
-homeFolder = path.expanduser("~")
+homeFolder = path.expanduser( "~" )
 backupFolder = path.join( homeFolder , "BACKUP" , "Reddit" )
 savePath = path.join( backupFolder , "036.json" )
 distutils.dir_util.mkpath( backupFolder )
 
-saveMaster = { "comments": None , "saved": None , "upvoted": None , "submissions": None  }
-with open( savePath ) as f:
-	saveMaster = json.loads( f.read() )
-saveOBJ = defaultdict( lambda : None )
+saveMaster = { "comments": {} , "saved": {} , "upvoted": {} , "submissions": {}  }
+try:
+	with open( savePath ) as f:
+		saveMaster = json.loads( f.read() )
+except:
+	pass
 
-REDDIT_USERNAME = ''
-REDDIT_PASSWORD = ''
-CLIENT_ID = ''
-CLIENT_SECRET = ''
+REDDIT_USERNAME = ""
+REDDIT_PASSWORD = ""
+CLIENT_ID = ""
+CLIENT_SECRET = ""
 
 def login():
-	reddit = praw.Reddit(client_id=CLIENT_ID,
-						 client_secret=CLIENT_SECRET,
-						 user_agent='export saved 2.0',
-						 username=REDDIT_USERNAME,
-						 password=REDDIT_PASSWORD)
+	reddit = praw.Reddit( client_id=CLIENT_ID ,
+						 client_secret=CLIENT_SECRET ,
+						 user_agent="export saved 2.0" ,
+						 username=REDDIT_USERNAME ,
+						 password=REDDIT_PASSWORD )
 	return reddit
 
 reddit_url = "https://reddit.com"
-def process(reddit, seq, file_name, folder_name):
+def process( reddit , seq , section , folder_name ):
 	global saveMaster
-	print( "Processing --> " + file_name )
+	print( "Processing --> " + section )
 	# filter items for link
-	for idx, i in enumerate(seq, 1):
-		if not hasattr(i, 'title'):
+	for idx, i in enumerate( seq , 1 ):
+		if not hasattr( i , "title" ):
 			i.title = i.link_title
 
 		try:
-			created = int(i.created)
+			created = int( i.created )
 		except ValueError:
 			created = 0
 
 		try:
-			folder = str(i.subreddit).encode('utf-8').decode('utf-8')
+			subreddit = str( i.subreddit ).encode( "utf-8" ).decode( "utf-8" )
 		except AttributeError:
-			folder = "None"
+			subreddit = "None"
 
 		if callable(i.permalink):
 			permalink = i.permalink()
 		else:
 			permalink = i.permalink
 
-		title = i.title.encode( 'utf-8' )
-		if saveMaster[ file_name ][ folder ] is None:
-			saveMaster[ file_name ][ folder ] = []
-		saveMaster[ file_name ][ folder ].append( { "url": reddit_url + permalink , "title": title , "created": created } )
+		title = i.title.encode( "utf-8" )
+		id = permalink.split( "comments/" )[ 1 ].split( "/" )
+		id.pop()
+		post_id = id[ 0 ]
 
-def save_upvoted(reddit):
+		if subreddit not in saveMaster[ section ]:
+			saveMaster[ section ][ subreddit ] = { "links": {} , "comments": {} }
+
+		if len( id ) == 3: # Comments
+			if post_id not in saveMaster[ section ][ subreddit ][ "comments" ]:
+				saveMaster[ section ][ subreddit ][ "comments" ][ post_id ] = {}
+			if id[ 2 ] not in saveMaster[ section ][ subreddit ][ "comments" ][ post_id ]:
+				print( "PostID = " + post_id + " ||==|| CommentID = " + id[ 2 ] )
+				saveMaster[ section ][ subreddit ][ "comments" ][ post_id ][ id[ 2 ] ] = { "url": reddit_url + permalink , "title": title , "created": created }
+		else: # Links
+			if post_id not in saveMaster[ section ][ subreddit ][ "links" ]:
+				print( "PostID = " + post_id )
+				saveMaster[ section ][ subreddit ][ "links" ][ post_id ] = { "url": reddit_url + permalink , "title": title , "created": created }
+
+
+def save_upvoted( reddit ):
 	""" save upvoted posts """
-	seq = reddit.user.me().upvoted(limit=None)
-	process(reddit, seq, "upvoted", "Reddit - Upvoted")
+	seq = reddit.user.me().upvoted( limit=None )
+	process( reddit , seq , "upvoted" , "Reddit - Upvoted" )
 
-def save_saved(reddit):
+def save_saved( reddit ):
 	""" save saved posts """
-	seq = reddit.user.me().saved(limit=None)
-	process(reddit, seq, "saved", "Reddit - Saved")
+	seq = reddit.user.me().saved( limit=None )
+	process( reddit , seq , "saved" , "Reddit - Saved" )
 
 
-def save_comments(reddit):
+def save_comments( reddit ):
 	""" save comments posts """
-	seq = reddit.user.me().comments.new(limit=None)
-	process(reddit, seq, "comments", "Reddit - Comments")
+	seq = reddit.user.me().comments.new( limit=None )
+	process( reddit , seq , "comments" , "Reddit - Comments" )
 
-def save_submissions(reddit):
+def save_submissions( reddit ):
 	""" save saved posts """
-	seq = reddit.user.me().submissions.new(limit=None)
-	process(reddit, seq, "submissions", "Reddit - Submissions")
+	seq = reddit.user.me().submissions.new( limit=None )
+	process( reddit , seq , "submissions" , "Reddit - Submissions" )
 
 
 def main():
@@ -90,9 +107,12 @@ def main():
 	save_submissions(reddit)
 	save_comments(reddit)
 
-	print( "Saving to --> " + savePath )
-	with open( savePath , "w+" ) as outfile:
-		json.dump( saveMaster , outfile )
+	try:
+		with open( savePath , "w+" ) as outfile:
+			json.dump( saveMaster , outfile )
+		print( "Saving to --> " + savePath )
+	except:
+		print( "Failed To Save" )
 
 	sys.exit(0)
 
