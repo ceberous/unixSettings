@@ -1,0 +1,44 @@
+#!/usr/bin/python
+import subprocess
+import sys
+
+def getRealPlaylistID( URL_OR_ID ):
+	testURL = URL_OR_ID.split( "list=" )
+	if len( testURL ) > 1:
+		URL_OR_ID = testURL[ 1 ]
+	testBLOAT = URL_OR_ID.split( "&" )
+	if len( testBLOAT ) > 1:
+		URL_OR_ID = testBLOAT[ 0 ]
+	return URL_OR_ID
+
+cmd_base = "youtube-dl -j --flat-playlist https://www.youtube.com/playlist?list="
+cmd_end = " | jq -r '.id' | sed 's_^_https://youtube.com/v/_'"
+def getIndividualIDS( playlist_id ):
+	cmd = cmd_base + playlist_id + cmd_end
+	#print( cmd )
+	individual_urls = subprocess.check_output( [ cmd ] , shell=True )
+	ids = []
+	for line in individual_urls.split( "\n" ):
+		print( line )
+		id = line.split( "https://youtube.com/v/" )
+		if len( id ) > 1:
+			ids.append( id[ 1 ] )
+	return ids
+
+
+hot_url_base = "http://www.youtube.com/watch_videos?video_ids="
+def printHotURL( playlist_ids ):
+	final = hot_url_base + ",".join( playlist_ids )
+	print final
+
+# Init
+if len( sys.argv ) < 2:
+	sys.exit( 1 )
+# 1
+playlist_id = getRealPlaylistID( sys.argv[ 1 ] )
+
+# 2
+playlist_ids = getIndividualIDS( playlist_id )
+
+# 3
+#printHotURL( playlist_ids )
