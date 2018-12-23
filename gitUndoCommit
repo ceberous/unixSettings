@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# https://stackoverflow.com/a/41726152
+
+lastGoodID=$(git log --format="%H" -n 2)
+lastGoodID=($lastID)
+
+git stash
+git reset --hard ${lastID[1]}
+git push --force
