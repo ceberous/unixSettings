@@ -1,0 +1,3 @@
+#!/bin/bash
+ssh -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ServerAliveInterval=60  -o LogLevel=ERROR  -F /dev/null \
+-i /home/$USER/.ssh/SSHKey $USER@xx.xx.xx.xxx
