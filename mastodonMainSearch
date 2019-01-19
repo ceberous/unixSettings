@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/morpheous/BACKUP/MastodonMain
-mastodon-archive text 2877133136@285936586.masto.host $1
+mastodon-archive text 2877133136@285936586.masto.host "(?i)$1"
