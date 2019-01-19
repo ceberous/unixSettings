@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /home/morpheous/BACKUP/MastodonMain
+mastodon-archive archive 2877133136@285936586.masto.host
+mastodon-archive media 2877133136@285936586.masto.host
+mastodon-archive text 2877133136@285936586.masto.host > mastodonMainStatuses.txt
