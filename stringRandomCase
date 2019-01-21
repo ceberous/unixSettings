@@ -1,0 +1,30 @@
+#!/usr/bin/python
+import random , string , sys , pyperclip , warnings
+warnings.filterwarnings( "ignore" )
+
+# sudo python2 -m pip install pyperclip
+
+if len( sys.argv ) < 2:
+	sys.exit( 1 )
+
+
+#print( sys.argv[ 1 ] )
+
+result = ""
+for char in sys.argv[ 1 ]:
+	if ord( char ) < 128:
+		if char.isalpha():
+			if bool( random.getrandbits( 1 ) ):
+				result = result + char.upper()
+			else:
+				result = result + char.lower()
+		else:
+			result = result + char
+	else:
+		result = result + char
+
+print( result )
+try:
+	pyperclip.copy( result )
+except:
+	pass
