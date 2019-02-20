@@ -10,4 +10,5 @@ for ((i=0;i<${#sink_indexes[@]};i++)); do
 		pacmd move-sink-input ${sink_indexes[i]} 0
 	fi
 done
+pacmd set-default-sink 0
 DISPLAY=:0.0 /usr/bin/notify-send -t 1000 "AUDIO-CHANGE" "TV"
