@@ -3,11 +3,11 @@ shopt -s extglob
 sinks=$(pacmd list-sink-inputs | awk '/index:/ {print $0}')
 split1="index: "
 IFS=$'\n' read -d "" -ra sink_indexes <<< "${sinks//$split1/$'\n'}"
-
 for ((i=0;i<${#sink_indexes[@]};i++)); do
         if [[ -n "${sink_indexes[i]// /}" ]]; then
                 #echo ${sink_indexes[i]}
                 pacmd move-sink-input ${sink_indexes[i]} 1
         fi
 done
+pacmd set-default-sink 1
 DISPLAY=:0.0 /usr/bin/notify-send -t 1000 "AUDIO-CHANGE" "Headphones"
