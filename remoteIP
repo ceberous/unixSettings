@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo -e "\nLocal IP(s) = "
+ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
+
+remote=$( curl -s https://diagnostic.opendns.com/myip )
+echo -e "\nRemote IP = $remote\n"
