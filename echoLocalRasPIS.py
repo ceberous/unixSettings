@@ -1,10 +1,11 @@
+#!/usr/bin/python
 import os
 import socket
 import fcntl
 import struct
 from subprocess import Popen, PIPE
 
-wIP = ([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8'$
+wIP = ([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(socket.connect(('8.8.8.8')))]] )])
 x1 = wIP.rfind( "." )
 wNet_Mask = wIP[ 0 : x1  ] + ".0/24"
 print wNet_Mask
