@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function jsonValue() {
+	KEY=$1
+	num=$2
+	awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d '"' | sed -n ${num}p
+}
+
+echo -e "\nLocal IP(s) = "
+ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
+
+# upnpc -s | grep ^ExternalIPAddress | cut -c21-
+
+#remote=$( curl -s https://diagnostic.opendns.com/myip )
+#echo -e "\nRemote IP = $remote\n"
+
+echo -e "\nRemote IP = "
+curl ipinfo.io
+
+#json=`curl -s -X GET ipinfo.io`
+#echo $json
+#x_ip=$(echo $json | jsonValue ip)
+#x_isp=$(echo $json | jsonValue org)
+#echo -e "\nRemote IP = $x_ip"
+#echo -e "ISP = $x_isp"
+
+echo ""
+echo ""
+curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
