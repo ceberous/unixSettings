@@ -1,0 +1,6 @@
+#!/bin/bash
+# https://unix.stackexchange.com/a/379381
+su root
+chattr -i -a $1
+chmod ugo+w $1
+rm $1
