@@ -4,6 +4,7 @@ import sys
 import os
 import requests
 import json
+from PIL import Image
 
 CLIENT_ID = ""
 
@@ -42,7 +43,13 @@ channel = getChannelInfo( user[ "users" ][ 0 ][ "_id" ] )
 print( channel[ "profile_banner" ] )
 print( channel[ "video_banner" ] )
 
-cmd1 = "/usr/bin/google-chrome '" + user[ "users" ][ 0 ][ "logo" ] + "'"
-cmd2 = "/usr/bin/google-chrome '" + channel[ "profile_banner" ] + "'"
-os.system( cmd1 )
-os.system( cmd2 )
+img_logo = Image.open( requests.get( user[ "users" ][ 0 ][ "logo" ] , stream=True).raw )
+img_logo.show()
+
+img_banner = Image.open( requests.get( channel[ "profile_banner" ] , stream=True).raw )
+img_banner.show()
+
+# cmd1 = "/usr/bin/google-chrome '" + user[ "users" ][ 0 ][ "logo" ] + "'"
+# cmd2 = "/usr/bin/google-chrome '" + channel[ "profile_banner" ] + "'"
+# os.system( cmd1 )
+# os.system( cmd2 )
