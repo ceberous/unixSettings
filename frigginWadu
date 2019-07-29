@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo pkill -9 recollindex
+sudo systemctl stop nordvpnd
+sudo systemctl stop synergy
+sudo systemctl stop redis
