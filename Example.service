@@ -1,0 +1,17 @@
+nano /etc/systemd/system/EXAMPLE.service
+
+[Unit]
+Description=Starts EXAMPLE Service
+After=network.target
+[Service]
+Environment="AUTOSSH_PIDFILE=/var/run/autossh.pid"
+Environment="AUTOSSH_POLL=60"
+Environment="AUTOSSH_FIRST_POLL=30"
+Environment="AUTOSSH_GATETIME=0"
+Environment="AUTOSSH_DEBUG=1"
+ExecStart=/usr/bin/autossh 
+ExecStop=/usr/bin/pkill chrome-too
+Restart=always    
+ 
+[Install]
+WantedBy=multi-user.target
