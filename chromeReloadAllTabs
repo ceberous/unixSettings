@@ -1,0 +1,11 @@
+#!/bin/bash
+# https://stackoverflow.com/a/50298815
+# https://stackoverflow.com/a/19783503
+# https://github.com/smblott-github/chromix-too
+# https://chrome.google.com/webstore/detail/chromix-too/ppapdfccnamacakfkpfmpfnefpeajboj
+# sudo apt-get install daemontools
+# https://askubuntu.com/a/717076
+# sudo apt-get install daemon
+# daemon --name="chromix-too-server" sh /usr/local/bin/chromixTooServerStart
+# chromix-too-server &
+chromix-too ls | awk '{ cmd="chromix-too reload"; print $1 | cmd; close(cmd) }'
