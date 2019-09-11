@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo apt-get remove synergy
+sudo rm -rf ~/.config/Symless/
+sudo rm -rf ~/.config/Synergy/
+sudo rm -rf ~/.synergy/
+sudo rm -rf ~/.symless/

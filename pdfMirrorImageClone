@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# https://stackoverflow.com/questions/653380/converting-a-pdf-to-png
+# https://askubuntu.com/a/1085339
+# sudo nano /etc/ImageMagick-6/policy.xml
+# https://github.com/jbarlow83/OCRmyPDF
+
+mkdir build
+cd build
+gs -sDEVICE=pngalpha -o file-%03d.png -r400 ../$1
+ls -1v | xargs -I% convert % %.pdf
+pdftk *.pdf cat output mirror-image-clone.pdf
+mv mirror-image-clone.pdf ../
+rm *.pdf
+rm *.png
+cd ../
+rm -R build
+ocrmypdf --force-ocr mirror-image-clone.pdf mirror-image-clone-ocr.pdf

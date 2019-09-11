@@ -1,2 +1,3 @@
 #!/bin/bash
-/usr/bin/redshift -O 1000K
+#redshift -O 1000K
+redshift-gtk -O 1000K

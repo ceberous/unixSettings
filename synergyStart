@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo pkill -9 synergy-core
+/usr/bin/synergy-core --server -f --run-as-uid 1000 --debug DEBUG --name morpheous-HP-EliteBook-8440p --enable-drag-drop --profile-dir /var/lib/synergy --log /var/log/synergy/synergy-core.log -c /home/morpheous/.synergy.conf --address 127.0.0.1:24800
