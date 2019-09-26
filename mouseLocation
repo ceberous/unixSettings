@@ -1,2 +1,5 @@
 #!/bin/bash
 while true; do xdotool getmouselocation; sleep 0.2; clear; done
+
+# sudo apt-get install cnee
+# cnee --record --mouse | awk  '/7,4,0,0,1/ { system("xdotool getmouselocation") }'
