@@ -1,0 +1,12 @@
+#!/bin/bash
+export DISPLAY=:0
+xdotool key "Ctrl+Tab"
+# bcoz of https://greasyfork.org/en/scripts/389901-twitch-auto-pause-play-toggle-for-tab-switch
+sleep .5
+xdotool mousemove  2537 10
+sleep .5
+xdotool mousemove  2537 511
+sleep .5
+xdotool mousemove  2237 511
+sleep .5
+xdotool mousemove  2537 511
