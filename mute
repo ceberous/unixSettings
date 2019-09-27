@@ -1,0 +1,3 @@
+#!/bin/bash
+SINK=$(pactl info | grep "Default Sink" | cut -d " " -f3)
+pactl set-sink-mute "$SINK" "1"
