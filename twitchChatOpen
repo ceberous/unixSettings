@@ -1,0 +1,10 @@
+#!/bin/bash
+export DISPLAY=:0
+#xdotool mousemove 3261 135
+#xdotool click 1
+#sleep .5
+#twitchPlay
+#sleep 1
+#xdotool mousemove 3018 973
+#xdotool click 1
+/usr/local/bin/replayMouseKeyboardActionFaster /home/morpheous/Documents/MouseRecords/Twitch/chat-open.data

@@ -1,0 +1,15 @@
+#!/bin/bash
+export DISPLAY=:0
+xdotool mousemove  2259 10
+sleep .5
+xdotool mousemove  2257 565
+sleep .5
+xdotool click 1
+sleep .5
+xdotool mousemove  2257 511
+sleep .5
+xdotool mousemove  2384 532
+sleep .5
+xdotool click 1
+sleep .5
+xdotool mousemove  2537 565

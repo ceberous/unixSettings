@@ -1,0 +1,2 @@
+#!/bin/bash
+cnee --replay --speed-percent 40  -f $1 -v -e /dev/null -ns

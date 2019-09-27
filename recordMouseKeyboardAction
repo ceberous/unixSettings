@@ -1,0 +1,3 @@
+#!/bin/bash
+# https://superuser.com/a/823821
+sleep 2 ; xmessage ready ; sleep 1 ; cnee --record --mouse --keyboard -o cnee.data
