@@ -1,0 +1,18 @@
+!/usr/bin/env node
+
+// https://github.com/ceberous/unixSettings/blob/master/twitchVODChatDownloader
+
+( async ()=> {
+	const process = require( "process" );
+	const path = require( "path" );
+	const file = require( path.join( process.cwd() , process.argv[ 2 ] ) );
+	for ( let message in file ) {
+		const username = file[ message ][ "commenter" ][ "display_name" ];
+		console.log( username );
+		const fragments = file[ message ][ "message" ][ "fragments" ].map( x => x.text );
+		const text = fragments.join( " " );
+		//const formatted = `${ username } = ${ text }`;
+		const formatted = `${ text }`;
+		console.log( formatted );
+	}
+})();
