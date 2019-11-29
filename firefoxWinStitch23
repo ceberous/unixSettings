@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/firefox -P "WinStitch23" -no-remote &> /dev/null &
