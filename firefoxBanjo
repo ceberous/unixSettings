@@ -1,2 +1,4 @@
 #!/bin/bash
+
+# https://askubuntu.com/questions/82347/how-to-hide-firefox-titlebar-in-gnome-shell/926437#926437
 /usr/bin/firefox -P "default" -no-remote &> /dev/null &
