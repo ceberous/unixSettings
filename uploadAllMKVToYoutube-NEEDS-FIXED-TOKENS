@@ -1,0 +1,13 @@
+#!/bin/bash
+CurrentDirectory=$( pwd )
+for filename in *.mkv; do
+	[ -e "$filename" ] || continue
+	FullPath="$CurrentDirectory/$filename"
+	echo $FullPath
+	echo $filename
+	BaseName=$(basename "$filename" .mkv)
+	# How did we get 'offline' / 'permanent' tokens ?
+	python /home/morphs/APPLICATIONS2/NodeYoutubeResumableUpload/YoutubeUpload.py --noauth_local_webserver --file "$FullPath" --title "$BaseName" --description "$BaseName"
+	echo "sleeping for 1 minutes"
+	sleep 60
+done
