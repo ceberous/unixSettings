@@ -1,0 +1,13 @@
+#!/bin/bash
+GoogleUserName=""
+# Example = Ram\ Dass/Lectures\ -\ Flattened/01/Video/
+BashEscapedNestedFolderPathForGoogleDriveDestination=""
+CurrentDirectory=$( pwd )
+for filename in *.mkv; do
+	[ -e "$filename" ] || continue
+	FullPath="$CurrentDirectory/$filename"
+	echo $FullPath
+	echo $filename
+	BaseName=$(basename "$filename" .mkv)
+	rclone -P copy "$filename" $GoogleUserName:$BashEscapedNestedFolderPathForGoogleDriveDestination
+done
