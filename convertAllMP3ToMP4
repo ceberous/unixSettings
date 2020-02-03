@@ -1,0 +1,11 @@
+#!/bin/bash
+CurrentDirectory=$( pwd )
+for filename in *.mp3; do
+	[ -e "$filename" ] || continue
+	FullPath="$CurrentDirectory/$filename"
+	echo $FullPath
+	echo $filename
+	BaseName=$(basename "$filename" .mp3)
+	ffmpeg -loop 1 -framerate 1 -i /home/morphs/APPLICATIONS2/RClone/Pictures/00.jpeg -i "$FullPath" \
+	-c:v libx264 -preset veryslow -crf 0 -c:a copy -shortest "$BaseName.mkv"
+done
