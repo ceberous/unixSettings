@@ -1,0 +1,3 @@
+#!/bin/bash
+# https://askubuntu.com/a/525337
+sudo ufw insert 1 allow from $1
