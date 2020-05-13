@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# less /proc/modules
+lsmod
+
+# modinfo driver-Name-Here
+
+echo "Kernel drivers dir: \"/lib/modules/$(uname -r)/kernel/drivers/\" \
+for Linux kernel version \"$(uname -r)\" "
+
+ls -l /lib/modules/$(uname -r)/kernel/drivers/
+
+#sudo apt install inxi -y
+
+inxi -SMA
