@@ -1,0 +1,21 @@
+#!/bin/bash
+MacAddress="00:0e:c6:56:83:4d"
+ChromecastIP=$(arp -na | grep -i $MacAddress | tail -1 | awk '{print $2}' | cut -d "(" -f2 | cut -d ")" -f1)
+if [ -z "$ChromecastIP" ]; then
+	echo "arp scan empty"
+	if [[ "$OSTYPE" == "linux-gnu" ]]; then
+		DefaultGateway=$(netstat -rn -A inet | grep -A 1 "Gateway" | tail -1 | awk '{print $2}')
+	elif [[ "$OSTYPE" == "darwin"* ]]; then
+		DefaultGateway=$(ip route ls | grep default | awk '{print $3}')
+	fi
+	echo "Default Gateway = $DefaultGateway"
+    echo "nmaping Default Gateway ..."
+	ChromecastIP=$(sudo nmap -sn $DefaultGateway/24 | grep -i '$MacAddress' -B 2 | head -1 | awk '{print $(NF)}')
+fi
+if [ -z "$ChromecastIP" ]; then
+    ChromecastIP=$(arp -na | grep -i $MacAddress | tail -1 | awk '{print $2}' | cut -d "(" -f2 | cut -d ")" -f1)
+fi
+echo "ChromecastIP = $ChromecastIP"
+DirectURL=$(youtube-dl --no-warnings -f "best" --no-playlist --get-url $1)
+echo $DirectURL
+castnow --address $ChromecastIP "$DirectURL"
