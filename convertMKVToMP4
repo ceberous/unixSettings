@@ -1,0 +1,5 @@
+#!/bin/bash
+dirname=$(dirname "$1")
+basename=$(basename "$1" | cut -d. -f1)
+outputpath=$(echo "$dirname"/"$basename".mp4)
+ffmpeg -i "$1" -vcodec copy -acodec copy -strict -2 "$outputpath"
